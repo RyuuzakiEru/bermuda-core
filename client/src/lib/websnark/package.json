@@ -1,0 +1,70 @@
+{
+  "_from": "git+https://github.com/tornadocash/websnark.git#2041cfa5fa0b71cd5cca9022a4eeea4afe28c9f7",
+  "_id": "websnark@0.0.4",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/websnark",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "websnark@git+https://github.com/tornadocash/websnark.git#2041cfa5fa0b71cd5cca9022a4eeea4afe28c9f7",
+    "name": "websnark",
+    "escapedName": "websnark",
+    "rawSpec": "git+https://github.com/tornadocash/websnark.git#2041cfa5fa0b71cd5cca9022a4eeea4afe28c9f7",
+    "saveSpec": "git+https://github.com/tornadocash/websnark.git#2041cfa5fa0b71cd5cca9022a4eeea4afe28c9f7",
+    "fetchSpec": "https://github.com/tornadocash/websnark.git",
+    "gitCommittish": "2041cfa5fa0b71cd5cca9022a4eeea4afe28c9f7"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "git+https://github.com/tornadocash/websnark.git#2041cfa5fa0b71cd5cca9022a4eeea4afe28c9f7",
+  "_spec": "websnark@git+https://github.com/tornadocash/websnark.git#2041cfa5fa0b71cd5cca9022a4eeea4afe28c9f7",
+  "_where": "/home/ryuuzaki/BSC/bermuda-core/client",
+  "author": {
+    "name": "Jordi Baylina"
+  },
+  "bugs": {
+    "url": "https://github.com/iden3/websnark/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "big-integer": "^1.6.42"
+  },
+  "deprecated": false,
+  "description": "big integer library to work in Zq",
+  "devDependencies": {
+    "browserify": "^16.2.3",
+    "eslint": "^5.14.0",
+    "eslint-plugin-mocha": "^5.3.0",
+    "eslint-plugin-webassembly": "^1.8.4",
+    "mocha": "^6.1.4",
+    "package": "^1.0.1",
+    "snarkjs": "git+https://github.com/peppersec/snarkjs.git#869181cfaf7526fe8972073d31655493a04326d5",
+    "wasmbuilder": "0.0.3"
+  },
+  "homepage": "https://github.com/iden3/websnark#readme",
+  "keywords": [
+    "bigint",
+    "bignum",
+    "biginteger",
+    "zq",
+    "elliptic",
+    "curve",
+    "prime",
+    "field"
+  ],
+  "license": "GPL-3.0",
+  "main": "index.js",
+  "name": "websnark",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iden3/websnark.git"
+  },
+  "scripts": {
+    "build": "node tools/buildwasm.js; browserify main.js -o build/websnark.js --exclude worker_threads --exclude crypto; cp build/websnark.js example/websnark.js",
+    "buildwasm": "node tools/buildwasm.js",
+    "test": "mocha --experimental-worker"
+  },
+  "version": "0.0.4"
+}
