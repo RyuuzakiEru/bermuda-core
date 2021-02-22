@@ -1,6 +1,6 @@
-import { bigInt } from '../lib/snarkjs';
+import { bigInt } from 'snarkjs';
 
-import websnarkUtils from '../lib/websnark/src/utils'
+import websnarkUtils from 'websnark/src/utils'
 import crypto from 'crypto';
 import circomlib from 'circomlib';
 import merkleTree from '../lib/MerkleTree';
