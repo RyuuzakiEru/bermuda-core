@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build:client": "npm --prefix client/ run build",
-    "build:circuit:compile": "npx circom circuits/withdraw.circom -o client/build/circuits/withdraw.json && npx snarkjs info -c client/build/circuits/withdraw.json",
+    "build:circuit:compile": "npx circom circuits/withdraw.circom -o build/circuits/withdraw.json && npx snarkjs info -c client/build/circuits/withdraw.json",
     "build:circuit:setup": "npx snarkjs setup --protocol groth -c client/build/circuits/withdraw.json --pk client/build/circuits/withdraw_proving_key.json --vk client/build/circuits/withdraw_verification_key.json",
     "build:circuit:bin": "node client/src/lib/websnark/tools/buildpkey.js -i client/build/circuits/withdraw_proving_key.json -o client/build/circuits/withdraw_proving_key.bin",
     "build:circuit:contract": "npx snarkjs generateverifier -v build/circuits/Verifier.sol --vk client/build/circuits/withdraw_verification_key.json",
