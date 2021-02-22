@@ -16,7 +16,8 @@
     "migrate": "npm run migrate:testnet",
     "migrate:dev": "npx truffle migrate --network development --reset",
     "migrate:testnet": "npx truffle migrate --network testnet --reset",
-    "migrate:mainnet": "npx truffle migrate --network mainnet"
+    "migrate:mainnet": "npx truffle migrate --network mainnet",
+    "download": "node downloadKeys.js"
   },
   "keywords": [],
   "author": "",
