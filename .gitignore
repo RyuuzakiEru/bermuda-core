@@ -94,6 +94,4 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
-# Client build files
-.client/build
 
