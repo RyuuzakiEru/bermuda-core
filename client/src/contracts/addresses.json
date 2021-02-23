@@ -12,5 +12,19 @@
             "USDT" : "0x337610d27c682E347C9cD60BD4b3b107C9d34dDd"
         }
 
+    },
+    "5777": {
+        "BNB" : {
+            "0.1" : "0xdc84BEd7a6DC443B076a5c5374045599c4621E8f",
+            "1.0" : "0x14451d2179dBe9FB90224eA8217D2B4B9ebB79Cf"
+        },
+        "USDT" :{
+            "0.1" : "0xD3e595c9a3b827244217b89CF2FE7188353e99aE",
+            "1.0" : "0xA2E054487E81408eace114C0C0ab2ec830E5fD6F"
+        },
+        "tokens" : {
+            "USDT" : "0x337610d27c682E347C9cD60BD4b3b107C9d34dDd"
+        }
+
     }
 }

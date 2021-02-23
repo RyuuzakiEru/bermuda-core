@@ -158,7 +158,8 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.12.13",
-    "@babel/plugin-syntax-bigint": "^7.8.3"
+    "@babel/plugin-syntax-bigint": "^7.8.3",
+    "eslint-plugin-mocha": "^8.0.0"
   },
   "browserslist": {
     "production": [

@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button';
 
 import Web3 from 'web3'
 
-import { buildGroth16 } from 'websnark'
+import { buildGroth16 } from '../lib/websnark'
 import { parseNote, generateProof } from '../util'
 
 import BermudaBNBAbi from '../contracts/BermudaBNBABI.json';
