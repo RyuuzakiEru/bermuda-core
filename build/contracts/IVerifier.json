@@ -28,15 +28,15 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.17+commit.d19bba13\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"_proof\",\"type\":\"bytes\"},{\"internalType\":\"uint256[6]\",\"name\":\"_input\",\"type\":\"uint256[6]\"}],\"name\":\"verifyProof\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/ryuuzaki/BSC/test2/bermuda-core/contracts/Bermuda.sol\":\"IVerifier\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/ryuuzaki/BSC/test2/bermuda-core/contracts/Bermuda.sol\":{\"keccak256\":\"0xfd19a511d00047e8702ed6f3984e771af91e4ceeba31e2ac78f8be254013916a\",\"urls\":[\"bzz-raw://d02a0eff5daae59cf847ae64ffa4a30f06d1f9dac120d7f2c18aa43e1f2d8bbc\",\"dweb:/ipfs/QmaLAK57FeMyofycUnzpXpkmvBknWG8ZGe67jzdC1LjX2F\"]},\"/home/ryuuzaki/BSC/test2/bermuda-core/contracts/MerkleTreeWithHistory.sol\":{\"keccak256\":\"0x3658683a6d1ce79f489c5ac77bdc60a82cca3c6f7d909db156622975d17cdffe\",\"urls\":[\"bzz-raw://31f7ee4ddcec3d3fca64ea26db518d4da3432ce9c37e5d2578e17b3aa8f9dc1f\",\"dweb:/ipfs/QmTPu6QaNaYJJkozfMiwG9fb1mZyS8vgL8SBtoQ2A4vjzX\"]},\"@openzeppelin/contracts/utils/ReentrancyGuard.sol\":{\"keccak256\":\"0xb63221b23818d622bfd83d18e0968307e4fcb7a35536bdceded76e1cf8349acd\",\"urls\":[\"bzz-raw://44e1e8c22362c4708a8c3362735f1465f5b05e2f7315e16c7010d694ce019d73\",\"dweb:/ipfs/QmWj9g8X1hxkXRre2kwkEjLBetjuzmSbWHD81bsSojnBkS\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.17+commit.d19bba13\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"_proof\",\"type\":\"bytes\"},{\"internalType\":\"uint256[6]\",\"name\":\"_input\",\"type\":\"uint256[6]\"}],\"name\":\"verifyProof\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/ubuntu/bermuda-core/contracts/Bermuda.sol\":\"IVerifier\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/ubuntu/bermuda-core/contracts/Bermuda.sol\":{\"keccak256\":\"0xfd19a511d00047e8702ed6f3984e771af91e4ceeba31e2ac78f8be254013916a\",\"urls\":[\"bzz-raw://d02a0eff5daae59cf847ae64ffa4a30f06d1f9dac120d7f2c18aa43e1f2d8bbc\",\"dweb:/ipfs/QmaLAK57FeMyofycUnzpXpkmvBknWG8ZGe67jzdC1LjX2F\"]},\"/home/ubuntu/bermuda-core/contracts/MerkleTreeWithHistory.sol\":{\"keccak256\":\"0x3658683a6d1ce79f489c5ac77bdc60a82cca3c6f7d909db156622975d17cdffe\",\"urls\":[\"bzz-raw://31f7ee4ddcec3d3fca64ea26db518d4da3432ce9c37e5d2578e17b3aa8f9dc1f\",\"dweb:/ipfs/QmTPu6QaNaYJJkozfMiwG9fb1mZyS8vgL8SBtoQ2A4vjzX\"]},\"@openzeppelin/contracts/utils/ReentrancyGuard.sol\":{\"keccak256\":\"0xb63221b23818d622bfd83d18e0968307e4fcb7a35536bdceded76e1cf8349acd\",\"urls\":[\"bzz-raw://44e1e8c22362c4708a8c3362735f1465f5b05e2f7315e16c7010d694ce019d73\",\"dweb:/ipfs/QmWj9g8X1hxkXRre2kwkEjLBetjuzmSbWHD81bsSojnBkS\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity 0.5.17;\n\nimport \"./MerkleTreeWithHistory.sol\";\nimport \"@openzeppelin/contracts/utils/ReentrancyGuard.sol\";\n\ncontract IVerifier {\n  function verifyProof(bytes memory _proof, uint256[6] memory _input) public returns(bool);\n}\n\ncontract Bermuda is MerkleTreeWithHistory, ReentrancyGuard {\n  uint256 public denomination;\n  mapping(bytes32 => bool) public nullifierHashes;\n  // we store all commitments just to prevent accidental deposits with the same commitment\n  mapping(bytes32 => bool) public commitments;\n  IVerifier public verifier;\n\n  // operator can update snark verification key\n  // after the final trusted setup ceremony operator rights are supposed to be transferred to zero address\n  address public operator;\n  modifier onlyOperator {\n    require(msg.sender == operator, \"Only operator can call this function.\");\n    _;\n  }\n\n  event Deposit(bytes32 indexed commitment, uint32 leafIndex, uint256 timestamp);\n  event Withdrawal(address to, bytes32 nullifierHash, address indexed relayer, uint256 fee);\n\n  /**\n    @dev The constructor\n    @param _verifier the address of SNARK verifier for this contract\n    @param _denomination transfer amount for each deposit\n    @param _merkleTreeHeight the height of deposits' Merkle Tree\n    @param _operator operator address (see operator comment above)\n  */\n  constructor(\n    IVerifier _verifier,\n    uint256 _denomination,\n    uint32 _merkleTreeHeight,\n    address _operator\n  ) MerkleTreeWithHistory(_merkleTreeHeight) public {\n    require(_denomination > 0, \"denomination should be greater than 0\");\n    verifier = _verifier;\n    operator = _operator;\n    denomination = _denomination;\n  }\n\n  /**\n    @dev Deposit funds into the contract. The caller must send (for ETH) or approve (for ERC20) value equal to or `denomination` of this instance.\n    @param _commitment the note commitment, which is PedersenHash(nullifier + secret)\n  */\n  function deposit(bytes32 _commitment) external payable nonReentrant {\n    require(!commitments[_commitment], \"The commitment has been submitted\");\n\n    uint32 insertedIndex = _insert(_commitment);\n    commitments[_commitment] = true;\n    _processDeposit();\n\n    emit Deposit(_commitment, insertedIndex, block.timestamp);\n  }\n\n  /** @dev this function is defined in a child contract */\n  function _processDeposit() internal;\n\n  /**\n    @dev Withdraw a deposit from the contract. `proof` is a zkSNARK proof data, and input is an array of circuit public inputs\n    `input` array consists of:\n      - merkle root of all deposits in the contract\n      - hash of unique deposit nullifier to prevent double spends\n      - the recipient of funds\n      - optional fee that goes to the transaction sender (usually a relay)\n  */\n  function withdraw(bytes calldata _proof, bytes32 _root, bytes32 _nullifierHash, address payable _recipient, address payable _relayer, uint256 _fee, uint256 _refund) external payable nonReentrant {\n    require(_fee <= denomination, \"Fee exceeds transfer value\");\n    require(!nullifierHashes[_nullifierHash], \"The note has been already spent\");\n    require(isKnownRoot(_root), \"Cannot find your merkle root\"); // Make sure to use a recent one\n    require(verifier.verifyProof(_proof, [uint256(_root), uint256(_nullifierHash), uint256(_recipient), uint256(_relayer), _fee, _refund]), \"Invalid withdraw proof\");\n\n    nullifierHashes[_nullifierHash] = true;\n    _processWithdraw(_recipient, _relayer, _fee, _refund);\n    emit Withdrawal(_recipient, _nullifierHash, _relayer, _fee);\n  }\n\n  /** @dev this function is defined in a child contract */\n  function _processWithdraw(address payable _recipient, address payable _relayer, uint256 _fee, uint256 _refund) internal;\n\n  /** @dev whether a note is already spent */\n  function isSpent(bytes32 _nullifierHash) public view returns(bool) {\n    return nullifierHashes[_nullifierHash];\n  }\n\n  /** @dev whether an array of notes is already spent */\n  function isSpentArray(bytes32[] calldata _nullifierHashes) external view returns(bool[] memory spent) {\n    spent = new bool[](_nullifierHashes.length);\n    for(uint i = 0; i < _nullifierHashes.length; i++) {\n      if (isSpent(_nullifierHashes[i])) {\n        spent[i] = true;\n      }\n    }\n  }\n\n  /**\n    @dev allow operator to update SNARK verification keys. This is needed to update keys after the final trusted setup ceremony is held.\n    After that operator rights are supposed to be transferred to zero address\n  */\n  function updateVerifier(address _newVerifier) external onlyOperator {\n    verifier = IVerifier(_newVerifier);\n  }\n\n  /** @dev operator can change his address */\n  function changeOperator(address _newOperator) external onlyOperator {\n    operator = _newOperator;\n  }\n}\n",
-  "sourcePath": "/home/ryuuzaki/BSC/test2/bermuda-core/contracts/Bermuda.sol",
+  "sourcePath": "/home/ubuntu/bermuda-core/contracts/Bermuda.sol",
   "ast": {
-    "absolutePath": "/home/ryuuzaki/BSC/test2/bermuda-core/contracts/Bermuda.sol",
+    "absolutePath": "/home/ubuntu/bermuda-core/contracts/Bermuda.sol",
     "exportedSymbols": {
       "Bermuda": [
         647
@@ -59,7 +59,7 @@
         "src": "0:23:2"
       },
       {
-        "absolutePath": "/home/ryuuzaki/BSC/test2/bermuda-core/contracts/MerkleTreeWithHistory.sol",
+        "absolutePath": "/home/ubuntu/bermuda-core/contracts/MerkleTreeWithHistory.sol",
         "file": "./MerkleTreeWithHistory.sol",
         "id": 331,
         "nodeType": "ImportDirective",
@@ -4166,7 +4166,7 @@
     "src": "0:4705:2"
   },
   "legacyAST": {
-    "absolutePath": "/home/ryuuzaki/BSC/test2/bermuda-core/contracts/Bermuda.sol",
+    "absolutePath": "/home/ubuntu/bermuda-core/contracts/Bermuda.sol",
     "exportedSymbols": {
       "Bermuda": [
         647
@@ -4189,7 +4189,7 @@
         "src": "0:23:2"
       },
       {
-        "absolutePath": "/home/ryuuzaki/BSC/test2/bermuda-core/contracts/MerkleTreeWithHistory.sol",
+        "absolutePath": "/home/ubuntu/bermuda-core/contracts/MerkleTreeWithHistory.sol",
         "file": "./MerkleTreeWithHistory.sol",
         "id": 331,
         "nodeType": "ImportDirective",
@@ -8301,7 +8301,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.18",
-  "updatedAt": "2021-02-24T11:23:25.666Z",
+  "updatedAt": "2021-02-24T11:56:30.688Z",
   "devdoc": {
     "methods": {}
   },

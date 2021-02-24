@@ -1,12 +1,12 @@
 {
     "97": {
         "BNB" : {
-            "0.1" : "0x0828BCB88d698F72965c693555951b0bdeCf8e5F",
-            "1.0" : "0x3Cc98009134F6c63Bed9ba05780C3657dA2d3B7e"
+            "0.1" : "0x617Bc4e67349cd24747094FDAE36D8AB9A85b4DF",
+            "1.0" : "0x516Eb7E18cBaB83A481b0d063b5fF3Ff5A44da48"
         },
         "USDT" :{
-            "0.1" : "0x404D849c6eD0c0254906548BfF78c3F5089C1Fe8",
-            "1.0" : "0xAeA2275bD12FC2eaFC566640944bd3bBa01b468A"
+            "0.1" : "0x53864A8E1FC76a291090397e8134C93506dCC749",
+            "1.0" : "0x483Cf739c1466bEd2D45CAE2b08cdB1B5418F226"
         },
         "tokens" : {
             "USDT" : "0x337610d27c682E347C9cD60BD4b3b107C9d34dDd"
