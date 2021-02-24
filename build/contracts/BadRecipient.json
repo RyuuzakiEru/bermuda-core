@@ -7,15 +7,15 @@
       "type": "fallback"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.17+commit.d19bba13\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"fallback\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/ubuntu/bermuda-core/contracts/Mocks/BadRecipient.sol\":\"BadRecipient\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/ubuntu/bermuda-core/contracts/Mocks/BadRecipient.sol\":{\"keccak256\":\"0x0329be02a9fec6e4fbd93d8c98887acd5d46bb09af18298232fc2fe72838ca03\",\"urls\":[\"bzz-raw://c4670e578c58b2326efebcba1a2dd2ee0bf6d70c26f84cdaa3e81f67bd0e360d\",\"dweb:/ipfs/QmbVoxKmmrWzjdnLfJkxhWe6UyjrpCFYjMxRP6uRCfGi7r\"]}},\"version\":1}",
-  "bytecode": "0x6080604052348015600f57600080fd5b50609c80601d6000396000f3fe6080604052348015600f57600080fd5b5060405162461bcd60e51b815260040180806020018281038252602181526020018060476021913960400191505060405180910390fdfe7468697320636f6e747261637420646f6573206e6f742061636365707420455448a265627a7a723158208caf133efe6d7f04a728a15efdd4458c338760f7b1cb890d2195c649a09d9c2864736f6c63430005110032",
-  "deployedBytecode": "0x6080604052348015600f57600080fd5b5060405162461bcd60e51b815260040180806020018281038252602181526020018060476021913960400191505060405180910390fdfe7468697320636f6e747261637420646f6573206e6f742061636365707420455448a265627a7a723158208caf133efe6d7f04a728a15efdd4458c338760f7b1cb890d2195c649a09d9c2864736f6c63430005110032",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.17+commit.d19bba13\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"fallback\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/ryuuzaki/BSC/test2/bermuda-core/contracts/Mocks/BadRecipient.sol\":\"BadRecipient\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/ryuuzaki/BSC/test2/bermuda-core/contracts/Mocks/BadRecipient.sol\":{\"keccak256\":\"0x0329be02a9fec6e4fbd93d8c98887acd5d46bb09af18298232fc2fe72838ca03\",\"urls\":[\"bzz-raw://c4670e578c58b2326efebcba1a2dd2ee0bf6d70c26f84cdaa3e81f67bd0e360d\",\"dweb:/ipfs/QmbVoxKmmrWzjdnLfJkxhWe6UyjrpCFYjMxRP6uRCfGi7r\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50609c80601d6000396000f3fe6080604052348015600f57600080fd5b5060405162461bcd60e51b815260040180806020018281038252602181526020018060476021913960400191505060405180910390fdfe7468697320636f6e747261637420646f6573206e6f742061636365707420455448a265627a7a72315820631050b1d2bbb3eac24e802d3195f3f2179e40167a77ccad1fb11dd79de9218d64736f6c63430005110032",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b5060405162461bcd60e51b815260040180806020018281038252602181526020018060476021913960400191505060405180910390fdfe7468697320636f6e747261637420646f6573206e6f742061636365707420455448a265627a7a72315820631050b1d2bbb3eac24e802d3195f3f2179e40167a77ccad1fb11dd79de9218d64736f6c63430005110032",
   "sourceMap": "25:110:6:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;25:110:6;;;;;;;",
   "deployedSourceMap": "25:110:6:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;77:51:6;;-1:-1:-1;;;77:51:6;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
   "source": "pragma solidity ^0.5.0;\n\ncontract BadRecipient {\n  function() external {\n    require(false, \"this contract does not accept ETH\");\n  }\n}\n",
-  "sourcePath": "/home/ubuntu/bermuda-core/contracts/Mocks/BadRecipient.sol",
+  "sourcePath": "/home/ryuuzaki/BSC/test2/bermuda-core/contracts/Mocks/BadRecipient.sol",
   "ast": {
-    "absolutePath": "/home/ubuntu/bermuda-core/contracts/Mocks/BadRecipient.sol",
+    "absolutePath": "/home/ryuuzaki/BSC/test2/bermuda-core/contracts/Mocks/BadRecipient.sol",
     "exportedSymbols": {
       "BadRecipient": [
         1581
@@ -173,7 +173,7 @@
     "src": "0:136:6"
   },
   "legacyAST": {
-    "absolutePath": "/home/ubuntu/bermuda-core/contracts/Mocks/BadRecipient.sol",
+    "absolutePath": "/home/ryuuzaki/BSC/test2/bermuda-core/contracts/Mocks/BadRecipient.sol",
     "exportedSymbols": {
       "BadRecipient": [
         1581
@@ -336,7 +336,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.18",
-  "updatedAt": "2021-02-23T09:47:23.436Z",
+  "updatedAt": "2021-02-24T11:23:25.689Z",
   "devdoc": {
     "methods": {}
   },
