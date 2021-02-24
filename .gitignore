@@ -95,6 +95,6 @@ typings/
 
 
 ./client/build
-./build
+./build/**
 ./client/public/withdraw.json
 ./client/public/withdraw_proving_key.bin
