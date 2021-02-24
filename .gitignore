@@ -94,8 +94,8 @@ typings/
 .dynamodb/
 
 
-client/build
-build/circuits
-build/contracts
+client/build/
+build/circuits/
+build/contracts/
 client/public/withdraw.json
-client/public/withdraw_proving_key.bin
+client/public/withdraw_proving_key.bin 
