@@ -156,7 +156,7 @@ const Deposit = ( {setInfo } ) => {
                 </Select>
             </FormControl>
             
-            <Button variant="contained" size="large" className={classes.button} onClick={handleDeposit}>
+            <Button variant="contained" size="large" color="primary" className={classes.button} onClick={handleDeposit}>
                 DEPOSIT
             </Button>
 

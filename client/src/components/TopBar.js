@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   menuButton: {
-    maxWidth: 80,
+    maxWidth: 40,
     margin: theme.spacing(1),
   },
   title: {
@@ -35,7 +35,6 @@ const TopBar = props => {
   const classes = useStyles();
 
   const toggleWeb3 = async () => {
-
     await window.ethereum.enable()
   }
 
@@ -45,7 +44,7 @@ const TopBar = props => {
         <Toolbar >
           <img src="/bermuda_logo.png" alt="logo" className={classes.menuButton} edge="start" />
           <Hidden smDown>
-            <Typography variant="h5" className={classes.title}>
+            <Typography variant="h6" className={classes.title}>
               BERMUDA
           </Typography>
           </Hidden>
