@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import TopBar from './components/TopBar'
@@ -34,24 +34,14 @@ const App = () => {
 
   const [info, setInfo] = useState({status:null, note: null})
 
-  useEffect(() => {
-    async function getWeb3() {
-      if (window.ethereum) {
-        await window.ethereum.enable()
-      }
-    }
-    getWeb3()
-  }, []);
-
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      
-      <TopBar />
       <CssBaseline />
       <Container component="main" className={classes.main} maxWidth="xl">
 
+        <TopBar />
         <Grid container direction="row"
   justify="space-around"
   alignItems="stretch" >

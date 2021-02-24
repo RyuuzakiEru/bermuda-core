@@ -138,7 +138,7 @@ const WithdrawForm = () => {
                 />
 
             </FormControl>
-            <Button variant="contained" className={classes.button} size="large" color="primary" onClick={handleWithDraw} disabled={groth16 === null}>
+            <Button variant="outlined" className={classes.button} size="large" color="primary" onClick={handleWithDraw} disabled={groth16 === null}>
                 {groth16 === null? "Wait...": "WITHDRAW"}
             </Button>
 

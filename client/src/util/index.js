@@ -103,7 +103,6 @@ const generateProof = async ({contract, groth16, circuit, proving_key, deposit, 
     const root = await tree.root()
     const isValidRoot = await contract.methods.isKnownRoot(toHex(root)).call()
     const isSpent = await contract.methods.isSpent(toHex(deposit.nullifierHash)).call()
-    assert(isValidRoot === true, 'Could not find Note')
     assert(isSpent === false, 'The note is already spent')
     assert(leafIndex >= 0, 'The deposit is not found in the tree')
   
