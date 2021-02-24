@@ -89,9 +89,6 @@
     "workbox-webpack-plugin": "4.3.1",
     "worker-threads": "^1.0.0"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "babel": {
     "presets": [
       "react-app"
