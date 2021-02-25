@@ -1,5 +1,5 @@
 import circomlib from 'circomlib'
-import snarkjs from '../lib/snarkjs'
+import snarkjs from 'snarkjs'
 
 const mimcsponge = circomlib.mimcsponge
 
