@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 
 import Hidden from '@material-ui/core/Hidden';
 
+import WalletDialog from './Wallet';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,15 +35,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TopBar = props => {
-  const classes = useStyles();
-  const { setProvider } = props;
+const TopBar = ({ setProvider }) => {
 
-  const toggleWeb3 = async () => {
 
-    await window.BinanceChain.enable();
-    setProvider(window.BinanceChain)
+  const [open, setOpen] = useState(false);
+  const [selectedProvider, setSelectedProvider] = useState(null);
+
+  const switchProvider = async provider => {
+    switch (provider) {
+      case "Metamask":
+        await window.ethereum.enable();
+        setProvider(window.ethereum)
+        setSelectedProvider("Metamask")
+        break;
+      case "Binance Chain Wallet":
+        await window.BinanceChain.enable();
+        setProvider(window.BinanceChain);
+        setSelectedProvider("Binance Chain Wallet")
+        break;
+    }
   }
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+    switchProvider(value);
+  };
+  const classes = useStyles();
 
   return (
     <div className={classes.root}>
@@ -55,9 +77,10 @@ const TopBar = props => {
           </Typography>
           </Hidden>
 
-          <Button variant="contained" color="primary" size="large" className={classes.button} onClick={toggleWeb3}>
+          <Button variant="contained" color="primary" size="large" className={classes.button} onClick={handleClickOpen}>
             Conect Wallet
           </Button>
+          <WalletDialog selectedValue={selectedProvider} open={open} onClose={handleClose} />
 
         </Toolbar>
       </AppBar>

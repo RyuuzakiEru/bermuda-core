@@ -51,22 +51,6 @@ const App = () => {
           <Grid item xs={12} sm={12} md={12}  lg={6} xl={6}><Withdraw  provider={provider} /></Grid>
 
         </Grid>
-        {info.note && <Container className={classes.footer} >
-          <Typography variant="body1">
-            Your note:
-          </Typography>
-          <Typography align="center" variant="subtitle2" className={classes.note}>
-            {info.note}
-          </Typography>
-        </Container>}
-        {info.status && <Container className={classes.footer} >
-          <Typography variant="body1">
-            Status:
-          </Typography>
-          <Typography align="center" variant="subtitle2" className={classes.note}>
-            {info.status}
-          </Typography>
-        </Container>}
       </Container>
     </div >
   );

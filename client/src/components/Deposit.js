@@ -47,13 +47,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Deposit = ( {setInfo , provider = null} ) => {
+const Deposit = ({ setInfo, provider = null }) => {
     const classes = useStyles();
 
     const [state, setState] = React.useState({
         currency: 'BNB',
         amount: '0.1',
-        note: undefined
+        note: undefined,
+        status: undefined,
     });
 
     const handleChange = (event) => {
@@ -65,19 +66,19 @@ const Deposit = ( {setInfo , provider = null} ) => {
     };
 
     const handleDeposit = async () => {
-        
+
         if (provider === null) return;
         const web3 = new Web3(provider);
         const { chainId } = provider;
         const networkVersion = parseInt(chainId)
-        const selectedAddress = await provider.request({method: 'eth_requestAccounts'});
+        const selectedAddress = await provider.request({ method: 'eth_requestAccounts' });
         const { currency, amount } = state;
         console.log(selectedAddress)
         const contractAddress = addresses[networkVersion][currency][amount];
         const deposit = createDeposit({});
         const note = toHex(deposit.preimage, 62)
         const noteString = `bermuda-${currency}-${amount}-${networkVersion}-${note}`
-        const gasPrice = await provider.request({method: 'eth_gasPrice', params: [], id: '0x61'}).then(parseInt) * 2;
+        const gasPrice = await provider.request({ method: 'eth_gasPrice', params: [], id: '0x61' }).then(parseInt) * 2;
         try {
             const contract = await new web3.eth.Contract(ABI[currency], contractAddress);
             setState({
@@ -85,23 +86,22 @@ const Deposit = ( {setInfo , provider = null} ) => {
                 note: 'Confirm your transaction and wait for it to be mined....',
             });
             if (currency === "BNB") {
-                setInfo({ note: noteString, status: 'Pending...' });
-                await contract.methods.deposit(toHex(deposit.commitment)).send({ value: web3.utils.toWei(amount, 'ether'), from: selectedAddress[0], gasPrice})
+                setState({ ...state, note: noteString, status: 'Pending...' });
+                await contract.methods.deposit(toHex(deposit.commitment)).send({ value: web3.utils.toWei(amount, 'ether'), from: selectedAddress[0], gasPrice })
                 setState({
                     ...state,
                     note: noteString,
                 });
                 setInfo({ note: noteString, status: 'Transaction Confirmed!' });
-                console.log(noteString);
 
             } else {
                 const weiAmount = web3.utils.toWei(amount, 'ether');
 
                 const tokenContract = await new web3.eth.Contract(ABI.token, addresses[networkVersion]["tokens"][currency]);
                 const allowance = await tokenContract.methods.allowance(selectedAddress, contractAddress).call({ from: selectedAddress });
-                
+
                 if (allowance < weiAmount) {
-                    await tokenContract.methods.approve(contractAddress,weiAmount).send({ from: selectedAddress });
+                    await tokenContract.methods.approve(contractAddress, weiAmount).send({ from: selectedAddress });
                     setInfo({ note: noteString, status: 'Approve and allow your token....' });
                     setState({
                         ...state,
@@ -126,46 +126,53 @@ const Deposit = ( {setInfo , provider = null} ) => {
 
 
     return (
-        <div className={classes.whiteBg}>
-            <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel htmlFor="outlined-age-native-simple">Currency</InputLabel>
-                <Select
-                    native
-                    value={state.currency}
-                    onChange={handleChange}
-                    label="Currency"
-                    inputProps={{
-                        name: 'currency'
-                    }}
-                >
-                    <option aria-label="None" value="" />
-                    <option value={'BNB'}>BNB</option>
-                    <option value={'USDT'}>USDT</option>
-                </Select>
-            </FormControl>
-            <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel htmlFor="outlined-age-native-simple">Amount</InputLabel>
-                <Select
-                    native
-                    value={state.amount}
-                    onChange={handleChange}
-                    label="Amount"
-                    inputProps={{
-                        name: 'amount'
-                    }}
-                >
-                    <option aria-label="None" value="" />
-                    <option value={'0.1'}>0.1</option>
-                    <option value={'1.0'}>1.0</option>
-                </Select>
-            </FormControl>
-            
-            <Button variant="contained" size="large" className={classes.button} onClick={handleDeposit}>
-                DEPOSIT
+        <>
+            <div className={classes.whiteBg}>
+                <FormControl variant="outlined" className={classes.formControl}>
+                    <InputLabel htmlFor="outlined-age-native-simple">Currency</InputLabel>
+                    <Select
+                        native
+                        value={state.currency}
+                        onChange={handleChange}
+                        label="Currency"
+                        inputProps={{
+                            name: 'currency'
+                        }}
+                    >
+                        <option aria-label="None" value="" />
+                        <option value={'BNB'}>BNB</option>
+                        <option value={'USDT'}>USDT</option>
+                    </Select>
+                </FormControl>
+                <FormControl variant="outlined" className={classes.formControl}>
+                    <InputLabel htmlFor="outlined-age-native-simple">Amount</InputLabel>
+                    <Select
+                        native
+                        value={state.amount}
+                        onChange={handleChange}
+                        label="Amount"
+                        inputProps={{
+                            name: 'amount'
+                        }}
+                    >
+                        <option aria-label="None" value="" />
+                        <option value={'0.1'}>0.1</option>
+                        <option value={'1.0'}>1.0</option>
+                    </Select>
+                </FormControl>
+
+                <Button variant="contained" size="large" className={classes.button} onClick={handleDeposit}>
+                    DEPOSIT
             </Button>
 
-        </div>
+            </div>
+            {state.note &&
+                <div className={classes.whiteBg}>
 
+
+                </div>
+            }
+        </>
 
     )
 }
