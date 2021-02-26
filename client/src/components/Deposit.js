@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Deposit = ( {setInfo } ) => {
+const Deposit = ( {setInfo , provider = null} ) => {
     const classes = useStyles();
 
     const [state, setState] = React.useState({
@@ -65,24 +65,28 @@ const Deposit = ( {setInfo } ) => {
     };
 
     const handleDeposit = async () => {
-        console.log(state)
-        const web3 = new Web3(window.ethereum);
-        const { selectedAddress, networkVersion } = window.ethereum;
+        
+        if (provider === null) return;
+        const web3 = new Web3(provider);
+        const { chainId } = provider;
+        const networkVersion = parseInt(chainId)
+        const selectedAddress = await provider.request({method: 'eth_requestAccounts'});
         const { currency, amount } = state;
+        console.log(selectedAddress)
         const contractAddress = addresses[networkVersion][currency][amount];
         const deposit = createDeposit({});
         const note = toHex(deposit.preimage, 62)
         const noteString = `bermuda-${currency}-${amount}-${networkVersion}-${note}`
+        const gasPrice = await provider.request({method: 'eth_gasPrice', params: [], id: '0x61'}).then(parseInt) * 2;
         try {
             const contract = await new web3.eth.Contract(ABI[currency], contractAddress);
-            console.log(contractAddress)
             setState({
                 ...state,
                 note: 'Confirm your transaction and wait for it to be mined....',
             });
             if (currency === "BNB") {
                 setInfo({ note: noteString, status: 'Pending...' });
-                await contract.methods.deposit(toHex(deposit.commitment)).send({ value: web3.utils.toWei(amount, 'ether'), from: selectedAddress })
+                await contract.methods.deposit(toHex(deposit.commitment)).send({ value: web3.utils.toWei(amount, 'ether'), from: selectedAddress[0], gasPrice})
                 setState({
                     ...state,
                     note: noteString,

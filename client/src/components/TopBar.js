@@ -13,14 +13,17 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   menuButton: {
-    maxWidth: 80,
+
+    flexGrow: 1,
+    maxWidth: 30,
     margin: theme.spacing(1),
   },
   title: {
     flexGrow: 1,
-    fontWeight: 600,
+    fontWeight: 700,
   },
   button: {
+    marginRight: theme.spacing(1),
     margin: "auto",
     backgroundColor: '#12151c',
     borderColor: '#fff',
@@ -28,15 +31,17 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "70%",
     paddingY: theme.spacing(2),
     paddingX: theme.spacing(3),
-},
+  },
 }));
 
-const TopBar = () => {
+const TopBar = props => {
   const classes = useStyles();
+  const { setProvider } = props;
 
   const toggleWeb3 = async () => {
 
-    await window.ethereum.enable()
+    await window.BinanceChain.enable();
+    setProvider(window.BinanceChain)
   }
 
   return (
@@ -45,12 +50,12 @@ const TopBar = () => {
         <Toolbar >
           <img src="/bermuda_logo.png" alt="logo" className={classes.menuButton} edge="start" />
           <Hidden smDown>
-            <Typography variant="h5" className={classes.title}>
+            <Typography variant="h6" className={classes.title}>
               BERMUDA
           </Typography>
           </Hidden>
 
-          <Button variant="outlined" className={classes.button} onClick={toggleWeb3}>
+          <Button variant="contained" color="primary" size="large" className={classes.button} onClick={toggleWeb3}>
             Conect Wallet
           </Button>
 

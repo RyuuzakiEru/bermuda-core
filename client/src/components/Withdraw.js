@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const WithdrawForm = () => {
+const WithdrawForm = ({provider = null}) => {
     const classes = useStyles();
 
     const [groth16, setGroth16] = useState(null)
@@ -85,17 +85,23 @@ const WithdrawForm = () => {
 
     const handleWithDraw = async (event) => {
         event.preventDefault();
-        const web3 = new Web3(window.ethereum);
-        const { selectedAddress } = window.ethereum;
+        if (provider === null) return;
+        const web3 = new Web3(provider);
+        const { chainId } = provider;
+        const networkVersion = parseInt(chainId)
+        const selectedAddress = await provider.request({method: 'eth_requestAccounts'});
+        const gasPrice = await provider.request({method: 'eth_gasPrice', params: [], id: '0x61'}).then(parseInt) * 2;
         try {
+            
             const { currency, amount, netId, deposit } = parseNote(state.receipt);
+            if(netId !== networkVersion) return;
             const contractAddress = addresses[netId][currency][amount];
             const contract = await new web3.eth.Contract(ABI[currency], contractAddress);
             const circuit = await fetch('/withdraw.json').then(res => res.json());
             const proving_key = await fetch('/withdraw_proving_key.bin').then(res => res.arrayBuffer())
             const { proof, args } = await generateProof({ contract, groth16, circuit, proving_key, deposit, recipient: state.address })
 
-            const response = await contract.methods.withdraw(proof, ...args).send({ from: selectedAddress })
+            const response = await contract.methods.withdraw(proof, ...args).send({ from: selectedAddress[0], gasPrice })
             console.log(response);
 
         } catch (e) {
@@ -138,7 +144,7 @@ const WithdrawForm = () => {
                 />
 
             </FormControl>
-            <Button variant="outlined" className={classes.button} size="large" color="primary" onClick={handleWithDraw} disabled={groth16 === null}>
+            <Button variant="contained" className={classes.button} size="large"  onClick={handleWithDraw} disabled={groth16 === null}>
                 {groth16 === null? "Wait...": "WITHDRAW"}
             </Button>
 

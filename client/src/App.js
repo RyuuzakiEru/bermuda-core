@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import TopBar from './components/TopBar'
 import Deposit from './components/Deposit'
@@ -33,22 +32,23 @@ const useStyles = makeStyles((theme) => ({
 const App = () => {
 
   const [info, setInfo] = useState({status:null, note: null})
+  const [provider, setProvider] = useState(null);
 
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
+      
+      <TopBar setProvider={setProvider} />
       <Container component="main" className={classes.main} maxWidth="xl">
 
-        <TopBar />
         <Grid container direction="row"
   justify="space-around"
   alignItems="stretch" >
           <Grid item xs={12} sm={12} md={12}  lg={6} xl={6}>
-            <Deposit setInfo={setInfo} />
+            <Deposit setInfo={setInfo} provider={provider} />
           </Grid>
-          <Grid item xs={12} sm={12} md={12}  lg={6} xl={6}><Withdraw /></Grid>
+          <Grid item xs={12} sm={12} md={12}  lg={6} xl={6}><Withdraw  provider={provider} /></Grid>
 
         </Grid>
         {info.note && <Container className={classes.footer} >
