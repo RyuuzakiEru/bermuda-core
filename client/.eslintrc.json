@@ -1,45 +1,30 @@
 {
+    "root": true,
     "env": {
-        "node": true,
         "browser": true,
         "es6": true,
-        "mocha": true
+        "node": true
     },
-    "extends": "eslint:recommended",
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
     "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
         "ecmaVersion": 2018,
         "sourceType": "module"
     },
+    "plugins": [
+        "react"
+    ],
     "rules": {
-        "indent": [
-            "error",
-            2
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "off",
-            "never"
-        ],
-        "object-curly-spacing": [
-          "error",
-          "always"
-        ],
-        "no-unused-vars": [
-            "off",
-            "always"
-          ],
-        "require-await": "error",
-        "no-extra-semi": "off"
+        "no-undef": "off",
+        "no-unused-vars": "off"
     }
 }

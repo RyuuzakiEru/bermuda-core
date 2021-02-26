@@ -35,13 +35,11 @@
     "css-loader": "3.4.2",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
-    "eslint": "^6.6.0",
     "eslint-config-react-app": "^5.2.1",
     "eslint-loader": "3.0.3",
     "eslint-plugin-flowtype": "4.6.0",
     "eslint-plugin-import": "2.20.1",
     "eslint-plugin-jsx-a11y": "6.2.3",
-    "eslint-plugin-react": "7.19.0",
     "eslint-plugin-react-hooks": "^1.6.1",
     "ethers": "^5.0.30",
     "file-loader": "4.3.0",
@@ -157,7 +155,9 @@
   "devDependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.12.13",
     "@babel/plugin-syntax-bigint": "^7.8.3",
-    "eslint-plugin-mocha": "^8.0.0"
+    "eslint": "^7.20.0",
+    "eslint-plugin-mocha": "^8.0.0",
+    "eslint-plugin-react": "^7.22.0"
   },
   "browserslist": {
     "production": [
