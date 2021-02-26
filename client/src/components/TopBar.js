@@ -66,7 +66,7 @@ const TopBar = ({ setProvider }) => {
   };
   const classes = useStyles();
 
-  return (
+  return (<>
     <div className={classes.root}>
       <AppBar title="BERMUDA" position="static">
         <Toolbar >
@@ -80,11 +80,11 @@ const TopBar = ({ setProvider }) => {
           <Button variant="contained" color="primary" size="large" className={classes.button} onClick={handleClickOpen}>
             Conect Wallet
           </Button>
-          <WalletDialog selectedValue={selectedProvider} open={open} onClose={handleClose} />
-
         </Toolbar>
       </AppBar>
     </div>
+
+    <WalletDialog selectedValue={selectedProvider} open={open} onClose={handleClose} /></>
   );
 }
 
