@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 },
 }));
 
-const TopBar = props => {
+const TopBar = () => {
   const classes = useStyles();
 
   const toggleWeb3 = async () => {
