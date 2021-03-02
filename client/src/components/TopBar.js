@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   menuButton: {
-
     flexGrow: 1,
     maxWidth: 30,
     margin: theme.spacing(1),
@@ -35,23 +34,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TopBar = ({ setProvider }) => {
+const TopBar = ({ provider, setProvider }) => {
 
 
   const [open, setOpen] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState(null);
 
-  const switchProvider = async provider => {
-    switch (provider) {
+
+
+  const switchProvider = async prov => {
+    switch (prov) {
       case "Metamask":
-        await window.ethereum.enable();
-        setProvider(window.ethereum)
-        setSelectedProvider("Metamask")
+        if (window.ethereum) {
+          await window.ethereum.enable();
+          setProvider(window.ethereum)
+          setSelectedProvider("Metamask")
+        }
         break;
       case "Binance Chain Wallet":
-        await window.BinanceChain.enable();
-        setProvider(window.BinanceChain);
-        setSelectedProvider("Binance Chain Wallet")
+        if (window.BinanceChain) {
+          await window.BinanceChain.enable();
+          setProvider(window.BinanceChain);
+          setSelectedProvider("Binance Chain Wallet")
+        }
         break;
     }
   }
@@ -66,6 +71,8 @@ const TopBar = ({ setProvider }) => {
   };
   const classes = useStyles();
 
+
+  useEffect(handleClickOpen, [])
   return (<>
     <div className={classes.root}>
       <AppBar title="BERMUDA" position="static">
@@ -78,7 +85,7 @@ const TopBar = ({ setProvider }) => {
           </Hidden>
 
           <Button variant="contained" color="primary" size="large" className={classes.button} onClick={handleClickOpen}>
-            Conect Wallet
+            {provider ? "Connected" : "Conect Wallet"}
           </Button>
         </Toolbar>
       </AppBar>

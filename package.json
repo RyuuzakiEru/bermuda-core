@@ -14,7 +14,7 @@
     "client:keys": "cp build/circuits/withdraw_proving_key.bin client/public && cp build/circuits/withdraw.json client/public",
     "test": "npx truffle test",
     "migrate": "npm run migrate:testnet",
-    "migrate:dev": "npx truffle migrate --network development --reset",
+    "migrate:dev": "npx truffle migrate --network sandbox",
     "migrate:testnet": "npx truffle migrate --network testnet --reset",
     "migrate:mainnet": "npx truffle migrate --network mainnet",
     "download": "node downloadKeys.js"
@@ -44,5 +44,8 @@
     "web3": "^1.2.2",
     "web3-utils": "^1.2.2",
     "websnark": "git+https://github.com/tornadocash/websnark.git#4c0af6a8b65aabea3c09f377f63c44e7a58afa6d"
+  },
+  "devDependencies": {
+    "truffle-plugin-verify": "^0.5.6"
   }
 }

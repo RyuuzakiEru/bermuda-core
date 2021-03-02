@@ -1,30 +1,29 @@
 {
     "97": {
-        "BNB" : {
-            "0.1" : "0x617Bc4e67349cd24747094FDAE36D8AB9A85b4DF",
-            "1.0" : "0x516Eb7E18cBaB83A481b0d063b5fF3Ff5A44da48"
+        "BNB": {
+            "1": "0x04891eA233f879b353fFab0C4D73a453b8979D33",
+            "5": "0x0DA3b541080979c5f9Dd5b203c6841C75c550FFb",
+            "10": "0x90304903Df87f51894D76257a276c7e9dC12739F",
+            "15": "0xe377801F8E3b3fA27a6ec311eBa7bC7b748b6BA0",
+            "20": "0x85c2f56e7944f0FeA8001630EbBdC07C4bc84234",
+            "50": "0xE685B7505390BaF60c655E17490DF563c0b93343"
         },
-        "USDT" :{
-            "0.1" : "0x53864A8E1FC76a291090397e8134C93506dCC749",
-            "1.0" : "0x483Cf739c1466bEd2D45CAE2b08cdB1B5418F226"
+        "USDT": {
+            "0.1": "0x53864A8E1FC76a291090397e8134C93506dCC749",
+            "1.0": "0x483Cf739c1466bEd2D45CAE2b08cdB1B5418F226"
         },
-        "tokens" : {
-            "USDT" : "0x337610d27c682E347C9cD60BD4b3b107C9d34dDd"
+        "tokens": {
+            "USDT": "0x337610d27c682E347C9cD60BD4b3b107C9d34dDd"
         }
-
     },
-    "5777": {
-        "BNB" : {
-            "0.1" : "0xdc84BEd7a6DC443B076a5c5374045599c4621E8f",
-            "1.0" : "0x14451d2179dBe9FB90224eA8217D2B4B9ebB79Cf"
-        },
-        "USDT" :{
-            "0.1" : "0xD3e595c9a3b827244217b89CF2FE7188353e99aE",
-            "1.0" : "0xA2E054487E81408eace114C0C0ab2ec830E5fD6F"
-        },
-        "tokens" : {
-            "USDT" : "0x337610d27c682E347C9cD60BD4b3b107C9d34dDd"
+    "1614470840937": {
+        "BNB": {
+          "1": "0x33c633013BEa0C97Ac7Cb128591ae1d5911bae35",
+          "5": "0x92aecc09F9c5070EAF48EB23B91AbE2F63b8af40",
+          "10": "0xAFA2968bc425935071500D62BA661541fAeB1D02",
+          "15": "0x24a36eAA50997c0De23d770dF28E89cBB23c11e2",
+          "20": "0x992cb575Cb47810BC9502Bc0578e627F6BFc7557",
+          "50": "0x44dE9fC3F8399aa6Aa4E217D1f6a0B222054D1f9"
         }
-
     }
 }

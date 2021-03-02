@@ -19,10 +19,9 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
 
-    development: {
-      host: '172.25.80.1',     // Localhost (default: none)
-      port: 8545,            // Standard Ethereum port (default: none)
-      network_id: '5777',       // Any network (default: none)
+    sandbox: {
+      provider: () => new HDWalletProvider(process.env.SANDBOX_MNEMONIC, 'https://sandbox.truffleteams.com/d2400634-3a6c-413e-a311-f23fb7249bd8'),
+      network_id: 1614470840937,
     },
 
     testnet: {
@@ -64,5 +63,11 @@ module.exports = {
         path: './build/Hasher.json'
       }]
     }
+  },
+  plugins: [
+    'truffle-plugin-verify'
+  ],
+  api_keys: {
+    bscscan: process.env.BSCSCAN_APIKEY,
   }
 }

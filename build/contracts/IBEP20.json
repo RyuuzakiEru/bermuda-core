@@ -10430,7 +10430,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.18",
-  "updatedAt": "2021-02-24T11:56:30.879Z",
+  "updatedAt": "2021-02-28T08:14:00.029Z",
   "devdoc": {
     "methods": {
       "allowance(address,address)": {

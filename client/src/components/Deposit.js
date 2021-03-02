@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Web3 from 'web3'
 
@@ -7,6 +7,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
+
+import InfoPanel from './InfoPanel';
 
 import BermudaBNBAbi from '../contracts/BermudaBNBABI.json';
 import BermudaBEP20Abi from '../contracts/BermudaBEP20ABI.json';
@@ -47,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Deposit = ({ setInfo, provider = null }) => {
+const Deposit = ({ provider = null }) => {
     const classes = useStyles();
 
     const [state, setState] = React.useState({
@@ -56,6 +58,8 @@ const Deposit = ({ setInfo, provider = null }) => {
         note: undefined,
         status: undefined,
     });
+
+    const [info, setInfo] = useState({});
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -66,34 +70,34 @@ const Deposit = ({ setInfo, provider = null }) => {
     };
 
     const handleDeposit = async () => {
-
+        setInfo({})
         if (provider === null) return;
         const web3 = new Web3(provider);
-        const { chainId } = provider;
-        const networkVersion = parseInt(chainId)
+        const networkVersion = provider.networkVersion || parseInt(provider.chainId);
         const selectedAddress = await provider.request({ method: 'eth_requestAccounts' });
         const { currency, amount } = state;
-        console.log(selectedAddress)
         const contractAddress = addresses[networkVersion][currency][amount];
         const deposit = createDeposit({});
         const note = toHex(deposit.preimage, 62)
         const noteString = `bermuda-${currency}-${amount}-${networkVersion}-${note}`
-        const gasPrice = await provider.request({ method: 'eth_gasPrice', params: [], id: '0x61' }).then(parseInt) * 2;
+        const gasPrice = await provider.request({ method: 'eth_gasPrice', params: [], id: networkVersion }).then(parseInt) * 2;
         try {
             const contract = await new web3.eth.Contract(ABI[currency], contractAddress);
-            setState({
-                ...state,
-                note: 'Confirm your transaction and wait for it to be mined....',
-            });
             if (currency === "BNB") {
-                setState({ ...state, note: noteString, status: 'Pending...' });
-                await contract.methods.deposit(toHex(deposit.commitment)).send({ value: web3.utils.toWei(amount, 'ether'), from: selectedAddress[0], gasPrice })
-                setState({
-                    ...state,
+                setInfo({
+                    ...info,
+                    status: "Creating Deposit",
+                    message: "Confirm Transaction in your wallet",
                     note: noteString,
-                });
-                setInfo({ note: noteString, status: 'Transaction Confirmed!' });
-
+                })
+                await contract.methods.deposit(toHex(deposit.commitment)).send({ value: web3.utils.toWei(amount, 'ether'), from: selectedAddress[0], gasPrice })
+                
+                setInfo({
+                    ...info,
+                    status: "Success!",
+                    message: "Transaction mined!",
+                    note: noteString
+                })
             } else {
                 const weiAmount = web3.utils.toWei(amount, 'ether');
 
@@ -102,29 +106,31 @@ const Deposit = ({ setInfo, provider = null }) => {
 
                 if (allowance < weiAmount) {
                     await tokenContract.methods.approve(contractAddress, weiAmount).send({ from: selectedAddress });
-                    setInfo({ note: noteString, status: 'Approve and allow your token....' });
-                    setState({
-                        ...state,
-                        note: 'Approve and allow your token....',
-                    });
                 }
-                setInfo({ note: noteString, status: 'Pending...' });
+
                 await contract.methods.deposit(toHex(deposit.commitment)).send({ from: selectedAddress })
-                setState({
-                    ...state,
+                setInfo({
+                    ...info,
+                    status: "Creating Deposit",
+                    message: "Transaction Confirmed!",
                     note: noteString,
-                });
-                setInfo({ note: noteString, status: 'Transaction Confirmed!' });
-                console.log(noteString);
+                })
+
             }
 
 
         } catch (e) {
             console.error(e)
+            setInfo({
+                ...info,
+                status: "Error",
+                message: "there was an error",
+                note: e.message
+            })
         }
     }
 
-
+    const networkVersion = provider && (provider.networkVersion || parseInt(provider.chainId));
     return (
         <>
             <div className={classes.whiteBg}>
@@ -138,10 +144,10 @@ const Deposit = ({ setInfo, provider = null }) => {
                         inputProps={{
                             name: 'currency'
                         }}
+                        disabled={!(addresses[networkVersion] && addresses[networkVersion]['BNB'])}
                     >
                         <option aria-label="None" value="" />
                         <option value={'BNB'}>BNB</option>
-                        <option value={'USDT'}>USDT</option>
                     </Select>
                 </FormControl>
                 <FormControl variant="outlined" className={classes.formControl}>
@@ -156,22 +162,19 @@ const Deposit = ({ setInfo, provider = null }) => {
                         }}
                     >
                         <option aria-label="None" value="" />
-                        <option value={'0.1'}>0.1</option>
-                        <option value={'1.0'}>1.0</option>
+                        {addresses[networkVersion] && Object.keys(addresses[networkVersion]['BNB']).map(amount =>
+                            <option key={amount} value={amount}>{amount}</option>
+                        )}
+
                     </Select>
                 </FormControl>
 
-                <Button variant="contained" size="large" className={classes.button} onClick={handleDeposit}>
-                    DEPOSIT
-            </Button>
+                <Button disabled={!provider} variant="contained" size="large" className={classes.button} onClick={handleDeposit}>
+                    {provider ? "DEPOSIT" : "CONNECT WALLET"}
+                </Button>
 
             </div>
-            {state.note &&
-                <div className={classes.whiteBg}>
-
-
-                </div>
-            }
+            <InfoPanel info={info} />
         </>
 
     )

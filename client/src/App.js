@@ -14,13 +14,11 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   footer: {
-    margin: "auto",
-    backgroundColor: '#12151c',
-    borderColor: '#fff',
-    color: '#fff',
-    maxWidth: "70%",
-    paddingY: theme.spacing(2),
-    paddingX: theme.spacing(3),
+    position: 'fixed',
+    width: '100%',
+    bottom: 0,
+    padding: theme.spacing(2),
+    backgroundColor: theme.palette.primary.main,
   },
   note: {
     overflowWrap: 'anywhere'
@@ -28,30 +26,34 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
 const App = () => {
 
-  const [info, setInfo] = useState({status:null, note: null})
+  const [info, setInfo] = useState({ status: null, note: null })
   const [provider, setProvider] = useState(null);
 
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      
-      <TopBar setProvider={setProvider} />
+
+      <TopBar provider={provider} setProvider={setProvider} />
       <Container component="main" className={classes.main} maxWidth="xl">
 
         <Grid container direction="row"
-  justify="space-around"
-  alignItems="stretch" >
-          <Grid item xs={12} sm={12} md={12}  lg={6} xl={6}>
+          justify="space-around"
+          alignItems="stretch" >
+          <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
             <Deposit setInfo={setInfo} provider={provider} />
           </Grid>
-          <Grid item xs={12} sm={12} md={12}  lg={6} xl={6}><Withdraw  provider={provider} /></Grid>
+          <Grid item xs={12} sm={12} md={12} lg={6} xl={6}><Withdraw provider={provider} /></Grid>
 
         </Grid>
       </Container>
+      <div className={classes.footer}>
+        <Typography align="center" variant="body2">
+          © Bermuda Triangle. All rights reserved.
+         </Typography>
+      </div>
     </div >
   );
 }
